@@ -563,6 +563,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Seed data endpoint (only for admin)
+  app.post('/api/seed-data', requireAuth, requireRole(['admin']), async (req: Request, res: Response) => {
+    try {
+      const { seedData } = await import('./seed-data');
+      await seedData();
+      
+      await logActivity(req.session.userId!, 'SEED', 'DATABASE', undefined, 'Seeded database with sample data');
+      
+      res.json({ message: 'Database berhasil di-seed dengan data sample' });
+    } catch (error) {
+      console.error('Error seeding data:', error);
+      res.status(500).json({ message: 'Gagal melakukan seeding data' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

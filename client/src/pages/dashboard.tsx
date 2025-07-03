@@ -1,8 +1,12 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { UsageChart } from "@/components/charts/usage-chart";
 import { StatusChart } from "@/components/charts/status-chart";
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+import { auth } from "@/lib/auth";
+import { useState } from "react";
 import { 
   Calendar, 
   Clock, 
@@ -11,7 +15,8 @@ import {
   Plus, 
   CheckCircle, 
   Download,
-  ArrowUp
+  ArrowUp,
+  Database
 } from "lucide-react";
 import { Link } from "wouter";
 
@@ -39,12 +44,60 @@ interface RecentBooking {
 }
 
 export default function Dashboard() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [user, setUser] = useState<any>(null);
+
+  // Get current user
+  useQuery({
+    queryKey: ['/api/auth/me'],
+    queryFn: async () => {
+      const userData = await auth.getCurrentUser();
+      setUser(userData);
+      return userData;
+    }
+  });
+
   const { data: stats, isLoading: statsLoading } = useQuery<DashboardStats>({
     queryKey: ['/api/dashboard/stats'],
   });
 
   const { data: recentBookings, isLoading: bookingsLoading } = useQuery<RecentBooking[]>({
     queryKey: ['/api/dashboard/recent-bookings'],
+  });
+
+  const seedDataMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch('/api/seed-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to seed data');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Berhasil!",
+        description: "Data sample berhasil dibuat di database.",
+      });
+      // Refresh all dashboard data
+      queryClient.invalidateQueries({ queryKey: ['/api/dashboard/stats'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/dashboard/recent-bookings'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/dashboard/usage-data'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/dashboard/vehicle-status'] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Gagal membuat data sample.",
+        variant: "destructive",
+      });
+    },
   });
 
   const getStatusBadge = (status: string) => {
@@ -90,6 +143,32 @@ export default function Dashboard() {
 
   return (
     <div>
+      {/* Admin Controls */}
+      {user && auth.isAdmin(user) && (
+        <div className="mb-6">
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">Admin Tools</h3>
+                  <p className="text-sm text-gray-500">Generate sample data untuk testing sistem</p>
+                </div>
+                <Button
+                  onClick={() => seedDataMutation.mutate()}
+                  disabled={seedDataMutation.isPending}
+                  className="flex items-center space-x-2"
+                >
+                  <Database className="w-4 h-4" />
+                  <span>
+                    {seedDataMutation.isPending ? 'Generating...' : 'Generate Data Sample'}
+                  </span>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <Card className="stats-card">

@@ -7,20 +7,20 @@ VehicleFlow is a comprehensive web application for managing corporate vehicle bo
 ## System Architecture
 
 ### Frontend Architecture
-- **Framework**: React 18 with TypeScript for type safety
-- **Routing**: Wouter for lightweight client-side routing
-- **State Management**: TanStack Query for server state management and caching
-- **UI Framework**: Shadcn UI components built on Radix UI primitives
-- **Styling**: Tailwind CSS with custom design tokens
-- **Form Handling**: React Hook Form with Zod validation
-- **Charts**: Chart.js for data visualization
+- **Framework**: PHP CodeIgniter 3 with Bootstrap 5 for responsive UI
+- **Template Engine**: CodeIgniter's built-in views with PHP templating
+- **UI Framework**: Bootstrap 5 with custom CSS for modern design
+- **Form Handling**: CodeIgniter form validation and CSRF protection
+- **Charts**: Chart.js for data visualization and analytics
+- **JavaScript**: jQuery for enhanced interactivity
 
 ### Backend Architecture
-- **Runtime**: Node.js with Express.js TypeScript server
-- **Database**: PostgreSQL with Drizzle ORM for type-safe database operations
-- **Authentication**: Session-based authentication with bcrypt password hashing
-- **Database Provider**: Neon serverless PostgreSQL
-- **API Design**: RESTful endpoints with proper error handling
+- **Framework**: PHP CodeIgniter 3 MVC framework
+- **Database**: PostgreSQL with CodeIgniter's Active Record
+- **Authentication**: CodeIgniter sessions with bcrypt password hashing
+- **Database Provider**: PostgreSQL with PDO driver
+- **API Design**: RESTful controllers with proper error handling
+- **Data Seeding**: Custom library for generating realistic sample data
 
 ## Key Components
 
@@ -115,7 +115,10 @@ VehicleFlow is a comprehensive web application for managing corporate vehicle bo
 - Environment variables configured for production database
 
 ## Changelog
-- July 03, 2025. Initial setup
+- July 03, 2025. Initial setup with Node.js/React stack
+- July 03, 2025. Migrated to PHP CodeIgniter 3 architecture
+- July 03, 2025. Implemented complete MVC structure with seeding system
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
+Preferred tech stack: PHP CodeIgniter 3 with Bootstrap 5 frontend.

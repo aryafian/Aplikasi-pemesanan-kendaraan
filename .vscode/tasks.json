@@ -1,0 +1,70 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start PHP Backend",
+            "type": "shell",
+            "command": "php",
+            "args": ["-S", "localhost:8080", "-t", "api/public"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": [],
+            "detail": "Start PHP CodeIgniter 3 backend server on port 8080"
+        },
+        {
+            "label": "Start Frontend Dev",
+            "type": "shell",
+            "command": "npm",
+            "args": ["run", "dev"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": [],
+            "detail": "Start React frontend development server with Vite"
+        },
+        {
+            "label": "Build Frontend",
+            "type": "shell",
+            "command": "npm",
+            "args": ["run", "build:client"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "detail": "Build React frontend for production"
+        },
+        {
+            "label": "Test PHP Backend",
+            "type": "shell",
+            "command": "php",
+            "args": ["test_php_backend.php"],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "detail": "Run PHP backend tests"
+        },
+        {
+            "label": "Start Full Stack",
+            "dependsOrder": "parallel",
+            "dependsOn": [
+                "Start PHP Backend",
+                "Start Frontend Dev"
+            ],
+            "detail": "Start both PHP backend and React frontend"
+        }
+    ]
+}

@@ -7,20 +7,21 @@ VehicleFlow is a comprehensive web application for managing corporate vehicle bo
 ## System Architecture
 
 ### Frontend Architecture
-- **Framework**: PHP CodeIgniter 3 with Bootstrap 5 for responsive UI
-- **Template Engine**: CodeIgniter's built-in views with PHP templating
-- **UI Framework**: Bootstrap 5 with custom CSS for modern design
-- **Form Handling**: CodeIgniter form validation and CSRF protection
-- **Charts**: Chart.js for data visualization and analytics
-- **JavaScript**: jQuery for enhanced interactivity
+- **Framework**: React with TypeScript for modern UI
+- **State Management**: TanStack Query for server state management
+- **UI Framework**: Tailwind CSS with Radix UI components
+- **Form Handling**: React Hook Form with Zod validation
+- **Charts**: Chart.js with react-chartjs-2 for data visualization
+- **Routing**: Wouter for client-side routing
+- **Build Tool**: Vite for fast development and building
 
 ### Backend Architecture
 - **Framework**: PHP CodeIgniter 3 MVC framework
-- **Database**: PostgreSQL with CodeIgniter's Active Record
-- **Authentication**: CodeIgniter sessions with bcrypt password hashing
-- **Database Provider**: PostgreSQL with PDO driver
-- **API Design**: RESTful controllers with proper error handling
-- **Data Seeding**: Custom library for generating realistic sample data
+- **Database**: MySQL with MySQLi driver (XAMPP compatible)
+- **Authentication**: PHP sessions with password_hash/password_verify
+- **Database Provider**: MySQL with prepared statements
+- **API Design**: RESTful controllers with JSON responses
+- **Data Seeding**: Custom seeding controller for sample data
 
 ## Key Components
 
@@ -72,28 +73,31 @@ VehicleFlow is a comprehensive web application for managing corporate vehicle bo
 5. Activity logs are maintained throughout the process
 
 ### Data Persistence
-- **PostgreSQL database** with relational schema
-- **Drizzle ORM** for type-safe database operations
-- **Database migrations** managed through Drizzle Kit
-- **Connection pooling** via Neon serverless
+- **MySQL database** with relational schema (XAMPP compatible)
+- **MySQLi driver** with prepared statements for security
+- **Database schema** managed through SQL files
+- **Connection pooling** via PHP MySQLi
 
 ## External Dependencies
 
-### Core Dependencies
-- **@neondatabase/serverless**: PostgreSQL database connectivity
-- **drizzle-orm**: Type-safe database operations
+### Backend Dependencies (PHP)
+- **PHP 7.4+**: Server-side scripting language
+- **MySQL 5.7+**: Database management system
+- **MySQLi Extension**: Database connectivity
+- **CodeIgniter 3**: MVC framework structure (custom implementation)
+
+### Frontend Dependencies (React)
 - **@tanstack/react-query**: Server state management
 - **@radix-ui/***: Accessible UI component primitives
 - **chart.js**: Data visualization
 - **react-chartjs-2**: Chart.js React integration
-- **bcrypt**: Password hashing
-- **express-session**: Session management
-- **connect-pg-simple**: PostgreSQL session store
+- **wouter**: Client-side routing
+- **react-hook-form**: Form handling
+- **zod**: Runtime type validation
 
 ### Development Dependencies
-- **TypeScript**: Type safety across the application
+- **TypeScript**: Type safety for frontend
 - **Vite**: Build tool and development server
-- **ESBuild**: Production bundling
 - **Tailwind CSS**: Utility-first styling
 - **PostCSS**: CSS processing
 
@@ -101,23 +105,33 @@ VehicleFlow is a comprehensive web application for managing corporate vehicle bo
 
 ### Build Process
 - **Frontend**: Vite builds React application to `dist/public`
-- **Backend**: ESBuild bundles server code to `dist/index.js`
-- **Database**: Drizzle pushes schema changes to PostgreSQL
+- **Backend**: PHP files served directly from `api/` directory
+- **Database**: MySQL schema imported via SQL files
 
 ### Environment Configuration
-- **Database URL**: Required for PostgreSQL connection
-- **Session Secret**: For secure session management
-- **Node Environment**: Development/production mode switching
+- **Database Configuration**: MySQL connection settings in `api/application/config/database.php`
+- **PHP Session**: Native PHP session management
+- **Web Server**: PHP built-in server or Apache/Nginx for production
 
 ### Production Deployment
-- Express server serves static frontend files
-- Database migrations applied via `npm run db:push`
-- Environment variables configured for production database
+#### XAMPP Local Development
+1. Copy `api` folder to XAMPP `htdocs` directory
+2. Import database schema via phpMyAdmin
+3. Access via `http://localhost/api/public`
+
+#### Replit Environment
+1. Run `./start_php_server.sh` to start PHP development server
+2. Frontend served via Vite on same port
+3. Database configuration for MySQL
 
 ## Changelog
 - July 03, 2025. Initial setup with Node.js/React stack
 - July 03, 2025. Migrated to PHP CodeIgniter 3 architecture
 - July 03, 2025. Implemented complete MVC structure with seeding system
+- July 05, 2025. **MAJOR MIGRATION**: Completely migrated backend from Node.js/Express to PHP CodeIgniter 3
+- July 05, 2025. Replaced PostgreSQL with MySQL database for XAMPP compatibility
+- July 05, 2025. Created complete PHP backend with all API endpoints ported
+- July 05, 2025. Maintained React frontend unchanged - full compatibility with new PHP backend
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.

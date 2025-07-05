@@ -1,0 +1,19 @@
+{
+  "name": "vehicleflow",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev:windows": "set NODE_ENV=development && tsx server/index.ts",
+    "dev:php": "php -S localhost:8080 -t api/public",
+    "dev:frontend": "vite",
+    "dev": "concurrently \"npm run dev:php\" \"npm run dev:frontend\"",
+    "build": "vite build --outDir dist/public",
+    "build:client": "vite build --outDir dist/public",
+    "start": "php -S localhost:8080 -t api/public",
+    "start:nodejs": "set NODE_ENV=production && node dist/index.js",
+    "check": "tsc",
+    "db:setup": "mysql -u root -p vehicleflow < api/database/schema.sql",
+    "test:php": "php test_php_backend.php"
+  }
+}

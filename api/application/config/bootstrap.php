@@ -30,9 +30,12 @@ define('EXIT__AUTO_MAX', 125);
 $request_uri = $_SERVER['REQUEST_URI'];
 $request_method = $_SERVER['REQUEST_METHOD'];
 
-// Remove query string
+// Remove query string and normalize path
 $path = strtok($request_uri, '?');
 $path = trim($path, '/');
+
+// Debug: Log the request path
+error_log("DEBUG: Request path: $path, Method: $request_method");
 
 // Simple routing
 $routes = [
